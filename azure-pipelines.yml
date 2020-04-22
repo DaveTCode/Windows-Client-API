@@ -1,0 +1,45 @@
+trigger:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core 3.1 sdk'
+    inputs:
+      packageType: sdk
+      version: 3.1.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - script: export PATH="$PATH:/root/.dotnet/tools"
+  - script: dotnet tool install -g dotnet-format
+  - script: dotnet format --check --dry-run -v diag
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build projects'
+    inputs:
+      command: 'build'
+      projects: 'SendsafelyAPI.sln'
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'pack'
+      packagesToPack: 'FreshdeskApi.Client/FreshdeskApi.Client.csproj'
+      configuration: '$(buildConfiguration)'
+      versioningScheme: 'byPrereleaseNumber'
+      majorVersion: '1'
+      minorVersion: '0'
+      patchVersion: '0'
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: 'd56e5736-e910-4dd6-abc9-1425cc2a7a58/fc67a367-3468-4422-9f5d-4f1b2b495c36'
