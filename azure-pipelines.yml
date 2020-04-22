@@ -30,7 +30,7 @@ steps:
   - task: NuGetCommand@2
     inputs:
       command: 'pack'
-      packagesToPack: 'FreshdeskApi.Client/FreshdeskApi.Client.csproj'
+      packagesToPack: 'SendsafelyApi/SendsafelyApi.csproj'
       configuration: '$(buildConfiguration)'
       versioningScheme: 'byPrereleaseNumber'
       majorVersion: '1'
