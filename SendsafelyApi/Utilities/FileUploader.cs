@@ -79,7 +79,7 @@ namespace SendsafelyApi.Utilities
 
                     responseStr = GetResponse(req);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // If an exception was thrown that means an IOException occured. If so we retry a couple of times.
                     req?.Abort();

@@ -16,7 +16,3 @@ namespace SendsafelyApi.Exceptions
     }
 
 }
-  }
-    }
-
-}

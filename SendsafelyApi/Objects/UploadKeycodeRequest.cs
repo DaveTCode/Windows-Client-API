@@ -9,5 +9,3 @@ namespace SendsafelyApi.Objects
         public string Keycode { get; set; }
     }
 }
-    }
-}

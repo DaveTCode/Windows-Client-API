@@ -13,7 +13,7 @@ namespace SendsafelyApi.Utilities
 
         public PublicKeyUtility(Connection connection)
         {
-            this._connection = connection;
+            _connection = connection;
         }
 
         #endregion
